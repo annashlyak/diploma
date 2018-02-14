@@ -1,0 +1,239 @@
+% Тут используется класс, установленный на сервере Papeeria. На случай, если
+% текст понадобится редактировать где-то в другом месте, рядом лежит файл matmex-diploma-custom.cls
+% который в момент своего создания был идентичен классу, установленному на сервере.
+% Для того, чтобы им воспользоваться, замените matmex-diploma на matmex-diploma-custom
+% Если вы работаете исключительно в Papeeria то мы настоятельно рекомендуем пользоваться
+% классом matmex-diploma, поскольку он будет автоматически обновляться по мере внесения корректив
+%
+
+% По умолчанию используется шрифт 14 размера. Если нужен 12-й шрифт, уберите опцию [14pt]
+%\documentclass[14pt]{matmex-diploma}
+\documentclass[14pt]{matmex-diploma-custom}
+
+\usepackage{tocvsec2}
+\usepackage{amssymb}
+\usepackage{listings}
+
+\usepackage{xcolor}
+\usepackage[font=small,labelsep=period]{caption}
+
+% Calligraphy letters
+% use: \mathcal
+\usepackage[mathscr]{eucal}
+% Algorithms
+% use: \begin{algorithm}
+\usepackage{algorithm}
+% use: \begin{algorithmic}
+\usepackage[noend]{algpseudocode}
+% Maths
+% use: for correct control sequence
+\usepackage{amsmath}
+% Centreing
+% use: \centering
+\usepackage{varwidth}
+% First indent
+% use: automatically
+\usepackage{indentfirst}
+
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+
+\lstset{
+    inputencoding=utf8x, 
+    extendedchars=false, 
+    keepspaces = true,
+    language=[Sharp]C,
+    captionpos=b,
+    frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    showstringspaces=false,
+    breakatwhitespace=true,
+    escapeinside={(*@}{@*)},
+    commentstyle=\color{greencomments},
+    morekeywords={partial, var, value, get, set},
+    keywordstyle=\color{bluekeywords},
+    stringstyle=\color{redstrings},
+    basicstyle=\footnotesize\ttfamily,
+}
+
+
+\renewcommand{\lstlistingname}{Листинг}
+
+\newtheorem{Th}{Теорема}[section]
+\newtheorem{Def}{Определение}[section]
+\newtheorem{Lem}{Утверждение}[subsection]
+
+\newcommand{\underdot}[1]{\mathop{#1}\limits_{\cdot}}
+
+\newenvironment{Proof} % имя окружения
+{\par\noindent{\bf Доказательство.}} % команды для \begin
+{\hfill$\scriptstyle\blacksquare$} % команды для \end
+
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\absBigg[1]{\Biggl|#1\Biggr|}
+
+\newcommand{\Pc}{\mathbf{P}_\mathrm{c}}
+\newcommand{\In}{\mathbf{I}_n}
+\newcommand{\PcHat}{\mathbf{\widehat{P}}_\mathrm{c}}
+\newcommand{\PcEv}{\mathbf{P}_\mathrm{c}^{\mathrm{ev}}}
+
+\newcommand{\evidence}{\langle c_{i}, c_{j} \rangle}
+\newcommand{\evidenceNumbersGind[1]}{\langle \mathrm{GInd}(#1,m),\mathrm{GInd}(\powTwo-#1,m)\rangle}
+\newcommand{\evidenceNumbers}{\langle i, j \rangle}
+
+\newcommand{\redistributor}{\mathbf{r}^{\evidenceNumbers}}
+\newcommand{\redistributorGInd[1]}{\mathbf{r}^{\evidenceNumbersGind[#1]}}
+
+\newcommand{\deltaP}{d\left(p,\widehat{p}\right)}
+
+\newcommand{\powTwo}{2^{n^{'}}-1}
+
+\newcommand\p{p}
+\newcommand\pHat{\widehat{p}}
+
+\newcommand\probability[1]{p\left(#1\right)}
+\newcommand\probabilityHat[1]{p\left(#1\right)}
+
+
+\newcommand{\PVector}[1]{\mathbf{P}_\mathrm{#1}}
+
+\newcommand{\IFirst}{\mathbf{I}_1}
+
+\newcommand{\Jn}{\mathbf{J}_n}
+\newcommand{\JFirst}{\mathbf{J}_1}
+
+\newcommand{\Ln}{\mathbf{L}_n}
+\newcommand{\Kn}{\mathbf{K}_n}
+\newcommand{\HMatrix}{\mathbf{H}}
+\newcommand{\Hij}{\HMatrix^{\evidenceNumbers}}
+
+\newcommand{\Pq}{\PVector{q}}
+\newcommand{\Pd}{\PVector{d}}
+\newcommand{\PdApost}{\PVector{d}^{'}}
+\newcommand{\PdijApost}{\PVector{d}^{', \evidenceNumbers}}
+
+\newcommand{\Pcicj}{p\evidence}
+
+\newcommand{\Tij}{\mathbf{T}^{\evidenceNumbers}}
+\newcommand{\TijTilda}{\widetilde{\mathbf{T}}^{\evidenceNumbers}}
+
+\newcommand{\squareMatrix}[2]{\begin{pmatrix} #1 \\ #2 \end{pmatrix}}
+
+\newcommand{\TPlusMatrix}{\squareMatrix{0 & 1}{0 & 1}}
+\newcommand{\TMinusMatrix}{\squareMatrix{1 & -1}{0 & 0}}
+\newcommand{\TZeroMatrix}{\squareMatrix{1 & 0}{0 & 1}}
+
+
+\newcommand{\HPlusMatrix}{\squareMatrix{0 & 0}{0 & 1}}
+\newcommand{\HMinusMatrix}{\squareMatrix{1 & 0}{0 & 0}}
+\newcommand{\HZeroMatrix}{\squareMatrix{1 & 0}{0 & 1}}
+
+\newcommand{\Mij}{\mathbf{M}^{\evidenceNumbers}}
+\newcommand{\MijTilda}{\widetilde{\mathbf{M}}^{\evidenceNumbers}}
+
+\newcommand{\MPlusMatrix}{\squareMatrix{1 & -1}{0 & 0}}
+\newcommand{\MMinusMatrix}{\squareMatrix{0 & 1}{0 & 1}}
+\newcommand{\MZeroMatrix}{\squareMatrix{1 & 0}{0 & 1} }
+
+\newcommand{\Pij}{\mathbf{P}^{\evidenceNumbers}}
+\newcommand{\Pijc}{\PVector{c}^{\evidenceNumbers}}
+\newcommand{\Pijq}{\PVector{q}^{\evidenceNumbers}}
+
+\newcommand{\dij}{\mathbf{d}^{\evidenceNumbers}}
+\newcommand{\dijTilda}{\widetilde{\mathbf{d}}^{\evidenceNumbers}}
+
+\newcommand{\dPlusMatrix}{\squareMatrix{1}{-1}}
+\newcommand{\dMinusMatrix}{\squareMatrix{0}{1}}
+\newcommand{\dZeroMatrix}{\squareMatrix{1} {0}}
+
+\newcommand{\rij}{\mathbf{r}^{\evidenceNumbers}}
+\newcommand{\rijTilda}{\widetilde{\mathbf{r}}^{\evidenceNumbers}}
+
+\newcommand{\rPlusMatrix}{\squareMatrix{0} {1}}
+\newcommand{\rMinusMatrix}{\squareMatrix{1}{-1}}
+\newcommand{\rZeroMatrix}{\squareMatrix{1}{0}}
+
+\newcommand{\sij}{\mathbf{s}^{\evidenceNumbers}}
+\newcommand{\sijTilda}{\widetilde{\mathbf{s}}^{\evidenceNumbers}}
+
+\newcommand{\sPlusMatrix}{\squareMatrix{0}{1}}
+\newcommand{\sMinusMatrix}{\squareMatrix{1}{0}}
+\newcommand{\sZeroMatrix}{\squareMatrix{1}{1}}
+
+\graphicspath{{Graphs/}}
+ 
+\begin{document}
+% Год, город, название университета и факультета предопределены,
+% но можно и поменять.
+% Если англоязычная титульная страница не нужна, то ее можно просто удалить.
+\filltitle{ru}{
+    chair              = {Направление <<Математическое обеспечение и администрирование информационных систем>> \\ Профиль <<?>>},
+    title              = {Алгебраические байесовские сети: синтез глобальных структур и алгоритмы логико-вероятностного вывода \\(проектная работа)},
+    %   master - Диплом магистра
+    %   bachelor - Диплом бакалавра
+    type               = {master},
+    position           = {студента},
+    group              = 646,
+    author             = {Екатерина Андреевна Мальчевская},
+    supervisorPosition = { проф.\,каф.\,инф.,\,д.\,ф.-м.\,н.,\,доц.},
+    supervisor         = {Тулупьев А.\,Л.},
+    reviewerPosition   = {?},
+    reviewer           = {? },
+    chairHeadPosition  = {д.\,ф.-м.\,н., профессор},
+    chairHead          = {? К.\,Х.},
+%   university         = {Санкт-Петербургский Государственный Университет},
+%   faculty            = {Математико-механический факультет},
+%   city               = {Санкт-Петербург},
+%   year               = {2013}
+}
+\filltitle{en}{
+    chair              = {Mathematical Software and Information Systems Administration \\ ??},
+    title              = {Empty subset as closed set},
+    author             = {Ekaterina Malchevskaia},
+    supervisorPosition = {Professor,\,PhD,\,Associate Professor},
+    supervisor         = {Tulupyev A. L.},
+    reviewerPosition   = {?},
+    reviewer           = {?},
+    chairHeadPosition  = {professor},
+    chairHead          = {Christobal Junta},
+}
+\maketitle
+\tableofcontents
+% У введения нет номера главы
+ 
+    % Introduction
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \input{0-Intro}
+   
+    % Chapter 1
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \input{1-Ch1}
+
+    % Chapter 2
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \input{2-Ch2}
+    
+    % Chapter 3
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \input{3-Ch3}
+
+    % Chapter 4
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \input{4-Ch4}
+ 
+    % Conclusion
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \input{5-Concl}
+   
+\setmonofont[Mapping=tex-text]{CMU Typewriter Text}
+\bibliographystyle{ugost2008ls}   
+% Bibliography (CHANGE)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %  \input{biblio}
+%\bibliography{diploma.bib}
+\end{document}

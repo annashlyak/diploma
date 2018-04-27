@@ -1,0 +1,260 @@
+Приведем примеры использования методов реализаций интерфейса IVirtualEvidencePropagator. Рассмотрим примеры, когда фрагменты знаний содержат скалярные оценки, и в первый фрагмент знаний приходит стохастическое свидетельство. Распространим влияние свидетельства в первый ФЗ, сформируем виртуальное свидетельство и пропагируем его во второй ФЗ. Для остальных возможных ситуаций использование будет аналогичным.
+\subsubsection{Пример пропагации стохастического виртуального свидетельства в ФЗ с скалярными оценками над идеалом конъюнктов}
+Пусть даны два фрагмента знаний над алфавитами $\mathcal{A}_1 = \{x_1, x_2\}$ и  $\mathcal{A}_2 = \{x_2, x_3\}$ и в первый фрагмент знаний поступило стохастическое свидетельство над алфавитом $\mathcal{A}_{\ev} = \{x_1\}$. Пусть ФЗ и свидетельство имеют следующие оценки вероятностей: \\ 
+\begin{equation*}
+\Pc^1 =  \begin{pmatrix}
+1 \\ p(x_1) \\ p(x_2) \\ p(x_2x_1)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.5\\ 0.7\\ 0.3
+\end{pmatrix}, 
+\Pc^2 =  \begin{pmatrix}
+1 \\ p(x_2) \\ p(x_3) \\ p(x_3x_2)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.3\\ 0.7\\ 0.1 
+\end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\Pc^{\ev} = \begin{pmatrix}  1 \\ p(x_1)	\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.4
+\end{pmatrix}.
+\end{equation*}
+
+После пропагации свидетельства оценки вероятностей элементов первого фрагмента знаний, вычисленные с помощью уравнения~\ref{conjG}, будут следующими:
+\begin{equation*}
+\Pc^{1,a} = \begin{pmatrix}
+1 \\  0.4 \\ 0.72 \\ 0.24
+\end{pmatrix}.
+\end{equation*}
+
+Виртуальное свидетельство будет построено над алфавитом $\mathcal{A}_{\ev} = \mathcal{A}_1 \cap \mathcal{A}_2 = \{x_1, x_2\} \cap \{x_2, x_3\} = \{x_2\}$ и будет содержать следующий вектор оценок вероятностей элементов:
+\begin{equation*}
+\Pc^{\ev} = \begin{pmatrix}  1 \\ p(x_2)	\end{pmatrix} = 
+\begin{pmatrix} 1 \\ 0.72 \end{pmatrix}.
+\end{equation*}
+
+После пропагации виртуального свидетельства во второй фрагмент знаний с помощью уравнения~\ref{conjglob2}, оценки второго ФЗ получаются следующими:
+\begin{equation*}
+\Pc^{2,a} = \begin{pmatrix}
+1 \\ 0.72 \\ 0.48 \\ 0.24
+\end{pmatrix}.
+\end{equation*}
+
+Данный результат пропагации можно получить с помощью следующего фрагмента кода:
+
+\begin{lstlisting}[caption = Пример пропагации виртуального свидетельства]
+// Creating KPs and evidence
+var firstKP = new ScalarConjKP(Convert.ToInt64("011", 2), new[] { 1, 0.5, 0.7, 0.3 });
+var secondKP = new ScalarConjKP(Convert.ToInt64("110", 2), new[] { 1, 0.3, 0.7, 0.1 });
+var evidence = new ScalarConjKP(Convert.ToInt64("001", 2), new[] { 1, 0.4 });
+// Creating propagators for stochastic and virtual evidences
+var localPropagator = new StochasticScalarConjunctsLocalPropagator();
+var virtualEvPropagator = new VirtualEvidenceScalarConjPropagator();
+
+// Propagating stochasic evidence in fisrt KP
+localPropagator.setPattern(firstKP);
+localPropagator.propagate(evidence);
+var firstKPwithAposterioriEst = localPropagator.getResult();
+
+// Propagating virtual evidence in second KP
+var secondKPwithAposterioriEst = virtualEvPropagator
+    .PropagateStochasticEvidence(firstKPwithAposterioriEst, secondKP);
+\end{lstlisting}
+
+Вывод на консоль можно осуществить с помощью следующего кода:
+\begin{lstlisting}[caption = Вывод результатов на консоль]
+Console.WriteLine("Probability estimates in first KP after propagation:");
+firstKPwithAposterioriEst
+    .GetPointEstimate()
+    .ToList()
+    .ForEach(est => Console.Write(" " + est));
+ 
+Console.WriteLine("Probability estimates in second KP after propagation:");
+secondKPwithAposterioriEst
+    .GetPointEstimate()
+    .ToList()
+    .ForEach(est => Console.Write(" " + est));
+\end{lstlisting}
+
+Результаты вывода на консоль:
+\begin{lstlisting}[caption = Результаты]
+Probability estimates in first KP after propagation:
+ 1, 0,4 0,72 0,24
+Probability estimates in second KP after propagation:
+1, 0,72, 0,48 0,24
+\end{lstlisting}
+\subsubsection{Пример пропагации стохастического виртуального свидетельства в ФЗ с скалярными оценками над идеалом дизъюнктов}
+Рассмотрим фрагменты знаний над алфавитами $\mathcal{A}_1 = \{x_1, x_2\}$ и  $\mathcal{A}_2 = \{x_2, x_3\}$, построенные над идеалами дизъюнктов. Программная реализация принимает на вход и возвращает в качестве результата ФЗ, содержащие вектор вероятностей $\Pd$, в то же время как приведенные в работе формулы работают с векторами $\Pd^{\prime}$, поэтому приведем в данном примере векторы вероятностей как и $\Pd$, так и $\Pd^{\prime}$. Считаем, что в первый фрагмент знаний поступило стохастическое свидетельство над алфавитом $\mathcal{A}_{\ev} = \{x_1\}$. Пусть ФЗ и свидетельство имеют следующие оценки вероятностей: \\ 
+\begin{equation*}
+\Pd^{\prime 1} =  \begin{pmatrix}
+1 \\ p(\overline{x}_1) \\ p(\overline{x}_2) \\ p(\overline{x}_2\overline{x}_1)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.5\\ 0.3\\ 0.1
+\end{pmatrix}, 
+\Pd^1 = \mathbf{1} - \Pd^{\prime 1} =  \begin{pmatrix}
+0 \\ 0.5\\ 0.7\\ 0.9
+\end{pmatrix}, 
+\end{equation*}
+\begin{equation*}
+\Pd^{\prime 2} =  \begin{pmatrix}
+1 \\ p(\overline{x}_3) \\ p(\overline{x}_3) \\ p(\overline{x}_3\overline{x}_2)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.7\\ 0.3\\ 0.1 
+\end{pmatrix},
+\Pd^2 = \mathbf{1} - \Pd^{\prime 2} =  \begin{pmatrix}
+0 \\ 0.3\\ 0.7\\ 0.9 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\Pd^{\prime \ev} = \begin{pmatrix}  1 \\ p(\overline{x}_1)	\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.6
+\end{pmatrix},
+\Pd^{\ev} = \mathbf{1} - \Pd^{\prime \ev} =  \begin{pmatrix}
+0 \\ 0.4 \end{pmatrix}.
+\end{equation*}
+
+После пропагации свидетельства оценки вероятностей элементов первого фрагмента знаний, вычисленные с помощью уравнения~\ref{dis3}, будут следующими:
+\begin{equation*}
+\Pd^{\prime 1,a} = \begin{pmatrix}
+1 \\  0.6 \\ 0.28 \\ 0.12
+\end{pmatrix},
+\Pd^{1,a}= \mathbf{1} - \Pd^{\prime 1,a} = \begin{pmatrix}
+0 \\  0.4 \\ 0.72 \\ 0.88
+\end{pmatrix}.
+\end{equation*}
+
+Виртуальное свидетельство строится над алфавитом $\mathcal{A}_{\ev} = \mathcal{A}_1 \cap \mathcal{A}_2 = \{x_1, x_2\} \cap \{x_2, x_3\} = \{x_2\}$ и содержит следующий вектор оценок вероятностей элементов:
+\begin{equation*}
+\Pd^{\prime \ev} = \begin{pmatrix}  1 \\ p(\overline{x}_2)	\end{pmatrix} = 
+\begin{pmatrix} 1 \\ 0.28 \end{pmatrix},
+\Pd^{\ev} = \mathbf{1} - \Pd^{\prime \ev} = \begin{pmatrix} 0 \\ 0.72 \end{pmatrix}.
+\end{equation*}
+
+C помощью уравнения~\ref{disGlob} распространим виртуальное свидетельство во второй фрагмент знаний и получим апостериорные оценки вероятностей:
+\begin{equation*}
+\Pd^{\prime 2,a} = \begin{pmatrix}
+1 \\ 0.28 \\ 0.52 \\ 0.04
+\end{pmatrix},
+ \Pd^{2,a}  = \mathbf{1} - \Pd^{\prime 2,a} = \begin{pmatrix}
+0 \\ 0.72 \\ 0.48 \\ 0.96
+\end{pmatrix}.
+\end{equation*}
+
+Данный результат пропагации можно получить с помощью следующего фрагмента кода:
+\begin{lstlisting}[caption = Пример пропагации виртуального свидетельства]
+// Creating KPs and evidence
+var firstKP = new ScalarDisjKP(Convert.ToInt64("011", 2), new[] { 0, 0.5, 0.7, 0.9 });
+var secondKP = new ScalarDisjKP(Convert.ToInt64("110", 2), new[] { 0, 0.3, 0.7, 0.9 });
+var evidence = new ScalarDisjKP(Convert.ToInt64("001", 2), new[] { 0, 0.4 });
+// Creating propagators for stochastic and virtual evidences
+var localPropagator = new StochasticScalarDisjLocalPropagator(firstKP);
+var virtualEvPropagator = new VirtualEvidenceScalarDisjPropagator();
+// Propagating stochastic evidence in first KP
+var firstKPwithAposterioriEst = localPropagator.PropagateEvidence(evidence); 
+// Propagating virtual evidence in second KP
+var secondKPwithAposterioriEst = virtualEvPropagator
+    .PropagateStochasticEvidence(firstKPwithAposterioriEst, secondKP);
+\end{lstlisting}
+
+Вывод на консоль можно осуществить с помощью следующего кода:
+\begin{lstlisting}[caption = Вывод результатов на консоль]
+Console.WriteLine("Probability estimates in first KP after propagation:");
+firstKPwithAposterioriEst
+    .GetPointEstimate()
+    .ToList()
+    .ForEach(est => Console.Write(" " + est));
+
+Console.WriteLine("Probability estimates in second KP after propagation:");
+secondKPwithAposterioriEst
+    .GetPointEstimate()
+    .ToList()
+    .ForEach(est => Console.Write(" " + est));
+\end{lstlisting}
+
+Результаты вывода на консоль:
+\begin{lstlisting}[caption = Результаты]
+Probability estimates in first KP after propagation:
+ 0 0,4 0,72 0,88
+Probability estimates in second KP after propagation:
+ 0 0,72 0,48 0,96
+\end{lstlisting}
+\subsubsection{Пример пропагации стохастического виртуального свидетельства в ФЗ со скалярными оценками над множеством квантов}
+Возьмем два фрагмента знаний над алфавитами $\mathcal{A}_1 = \{x_1, x_2\}$ и  $\mathcal{A}_2 = \{x_2, x_3\}$. Пусть в первый фрагмент знаний поступило стохастическое свидетельство над алфавитом $\mathcal{A}_{\ev} = \{x_1\}$. Будем считать, что ФЗ и свидетельство построены над множеством квантов и имеют следующие оценки вероятностей: 
+\begin{equation*}
+\Pq^1 =  \begin{pmatrix}
+p(\overline{x}_2\overline{x}_1)\\ p(\overline{x}_2x_1) \\ p(x_2\overline{x}_1) \\ p(x_2x_1)
+\end{pmatrix} = \begin{pmatrix}
+0.1\\ 0.2\\ 0.4\\ 0.3
+\end{pmatrix},
+\Pq^2 =  \begin{pmatrix}
+p(\overline{x}_3\overline{x}_2)\\ p(\overline{x}_3x_2)\\ p(x_3\overline{x}_2) \\ p(x_3x_2)
+\end{pmatrix} = \begin{pmatrix}
+0.1 \\ 0.2\\ 0.6\\ 0.1 
+\end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\Pq^{\ev} = \begin{pmatrix}   p(\overline{x}_1) \\ p(x_1)	\end{pmatrix} = \begin{pmatrix}
+0.6 \\ 0.4
+\end{pmatrix}.
+\end{equation*}
+
+После пропагации свидетельства оценки вероятностей элементов первого фрагмента знаний, вычисленные с помощью уравнения~\ref{quantsG}, будут следующими:
+\begin{equation*}
+\Pq^{1,a} = \begin{pmatrix}
+0.12 \\  0.16 \\ 0.48\\ 0.24
+\end{pmatrix}.
+\end{equation*}
+
+Виртуальное свидетельство будет построено над алфавитом $\mathcal{A}_{\ev} = \mathcal{A}_1 \cap \mathcal{A}_2 = \{x_1, x_2\} \cap \{x_2, x_3\} = \{x_2\}$ и будет содержать следующий вектор оценок вероятностей квантов:
+\begin{equation*}
+\Pq^{\ev} = \begin{pmatrix}  p(\overline{x}_2) \\ p(x_2)	\end{pmatrix} = 
+\begin{pmatrix} 0.28 \\ 0.72 \end{pmatrix}.
+\end{equation*}
+
+Пропагируем виртуальное свидетельство во второй фрагмент знаний с помощью уравнения~\ref{quantsGlob} и получим следующие оценки вероятностей:
+\begin{equation*}
+\Pq^{2,a} = \begin{pmatrix}
+0.04 \\ 0.48 \\ 0.24 \\ 0.24
+\end{pmatrix}.
+\end{equation*}
+
+Данный результат пропагации можно получить с помощью следующего фрагмента кода:
+
+\begin{lstlisting}[caption = Пример пропагации виртуального свидетельства]
+// Creating KPs and evidence
+var firstKP = new ScalarQuantKP(Convert.ToInt64("011", 2), new[] { 0.1, 0.2, 0.4, 0.3 });
+var secondKP = new ScalarQuantKP(Convert.ToInt64("110", 2), new[] { 0.1, 0.2, 0.6, 0.1 });
+var evidence = new ScalarQuantKP(Convert.ToInt64("001", 2), new[] { 0.6, 0.4 });
+
+// Creating propagators for stochastic and virtual evidences
+var localPropagator = StochasticScalarQuantLocalPropagator.Instance(firstKP);
+var virtualEvPropagator = new VirtualEvidenceScalarQuantPropagator();
+
+// Propagating stochasic evidence in fisrt KP
+var firstKPwithAposterioriEst = localPropagator.PropagateEvidence(evidence);
+            
+// Propagating virtual evidence in second KP
+var secondKPwithAposterioriEst = virtualEvPropagator
+    .PropagateStochasticEvidence(firstKPwithAposterioriEst, secondKP);
+\end{lstlisting}
+
+Вывод на консоль можно осуществить с помощью следующего кода:
+\begin{lstlisting}[caption = Вывод результатов на консоль]
+Console.WriteLine("Probability estimates in first KP after propagation:");
+firstKPwithAposterioriEst
+    .GetPointEstimate()
+    .ToList()
+    .ForEach(est => Console.Write(" " + est));
+ 
+Console.WriteLine("Probability estimates in second KP after propagation:");
+secondKPwithAposterioriEst
+    .GetPointEstimate()
+    .ToList()
+    .ForEach(est => Console.Write(" " + est));
+\end{lstlisting}
+
+Результаты вывода на консоль:
+\begin{lstlisting}[caption = Результаты]
+Probability estimates in first KP after propagation:
+ 0,12 0,16 0,48 0,24
+Probability estimates in second KP after propagation:
+ 0,04 0,48 0,24 0,24
+\end{lstlisting}

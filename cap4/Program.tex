@@ -1,0 +1,122 @@
+Для того чтобы реализовать алгоритмы распространения виртуального свидетельства, была расширена функциональность абстракций фрагмента знаний. Соответственно, для интерфейсов каждой модели~(идеал конъюнктов, идеал дизъюнктов, множество квантов) в случае скалярных и интервальных оценок был добавлен статический класс с тремя методами расширения: \begin{enumerate}
+    \item IsIntersect --- проверяет, пересекаются ли между собой два фрагмента знаний, и возвращает true, если пересекаются, и false иначе;
+    \item IsEqual --- позволяет сравнивать два фрагмента знаний между собой с заданной точностью и возвращает true, если ФЗ эквивалентны, и false иначе;
+    \item GetSeparator --- возвращает пересечение двух фрагментов знаний, если пересечение не пусто, а в случае, если ФЗ не пересекаются, возвращается пустой фрагмент знаний.
+\end{enumerate}
+
+Всего было создано 6 таких статических классов.
+
+Рассмотрим подробнее работу метода GetSeparator. В случае конъюнктов и дизъюнктов основную работу по выделению элементов сепаратора делает следующий цикл:
+
+\begin{lstlisting}[caption = Цикл для выделения элементов виртуального свидетельства]
+for (int index = 0; index <= KPGlobalIndex; index++)
+{
+    if ((index & KPGlobalIndex) == index)
+    {
+        if ((index & separatorGlobalIndex) == index)
+        {
+            probability[separatorIndex] =
+                firstKP.GetPointEstimate(probIndex);
+            probIndex++;
+            separatorIndex++;
+        }
+        else
+        {
+            probIndex++;
+        }
+    }
+}
+\end{lstlisting}
+
+Стоит отметить, что при программной реализации алфавит удобнее задавать с помощью глобального индекса. Глобальный индекс сепаратора можно получить с помощью операции побитового И глобальных индексов первого и второго фрагментов знаний, по этому принципу работает метод IsIntersect. Заметим, что количество единиц в глобальном индексе соответствует мощности алфавита. 
+
+Данный цикл также использует операцию побитового И. Он проверяет все возможные числа index, которые могут соответствовать элементам вектора вероятностей, это числа от 0 до KPGlobalIndex --- глобального индекса первого ФЗ. Первое условие проверяет это соответствие, второе условие аналогично проверяет, соответствует ли индекс элементу сепаратора. Если условия верны, то значение вероятности сохраняется в массив вероятностей probability. Индексы текущих элементов в векторе вероятностей фрагмента знаний и векторе вероятностей сепаратора задаются с помощью переменных probIndex и separatorIndex соответственно.
+ 
+ Отметим, что данный цикл реализует функциональность матриц перехода  $\Qmatr$ и $\V$, а сами матрицы строить не нужно, потому что, благодаря глобальным индексам, при реализации сразу понятно, какие элементы формируют виртуальное свидетельство.
+ 
+ Так как у модели ФЗ, представленной квантами, виртуальное свидетельство содержит не просто оценки элементов на пересечении, а согласованные оценки, то тут алгоритм построения виртуального свидетельства будет другим. 
+ 
+ Рассмотрим реализацию метода GetSeparator для построения виртуального свидетельства со скалярными оценками.  Вспомогательный метод GetQuantIndexes возвращает вектор из глобальных индексов соответствующих квантов, составляющих ФЗ.  В цикле для каждого индекса кванта из сепаратора считается его вероятность как вероятность детерминированного свидетельства с помощью метода GetEvidenceProbability объекта класса DeterministicScalarQuantLocalPropagator.
+ 
+ \begin{lstlisting}[caption = Метод построения виртуального видетельства со скалярными оценками над квантами]
+public static ScalarQuantKP_I GetSeparator(ScalarQuantKP_I firstKP, long separatorGlobalIndex)
+{
+    var numberOfElements = Convert
+        .ToString(separatorGlobalIndex, 2)
+        .Count(c => c == '1');
+    var numberOfAtoms = (int)Math.Pow(2, numberOfElements);
+    var probability = new double[numberOfAtoms];
+    var sepAtomGlobalIndexes = GetQuantIndexes(numberOfAtoms, separatorGlobalIndex);
+    var propagator = DeterministicScalarQuantLocalPropagator
+    	.Instance(firstKP);
+            
+    for (int index = 0; index < sepAtomGlobalIndexes.Length; index++)
+    {
+        var binaryQuantKp = new BinaryQuantKP(separatorGlobalIndex);
+        binaryQuantKp.SetQuant(sepAtomGlobalIndexes[index]);
+        probability[index] = propagator.evidenceProbaility(binaryQuantKp);
+    }
+    return new ScalarQuantKP(separatorGlobalIndex, probability);
+}
+\end{lstlisting}
+
+Кроме того, был создан интерфейс IVirtualEvidencePropagator и 6 его реализаций для каждой модели ФЗ в случае скалярных оценок и в случае интервальных оценок.
+
+Дадим краткое описание классов, реализующих алгоритмы распространения виртуального свидетельства для модели ФЗ, представленной идеалом конъюнктов. 
+
+ VirtualEvidenceScalarConjPropagator --- класс, отвечающий за следующие действия: пропагация стохастического виртуального свидетельства и пропагация неточного виртуального свидетельства во фрагмент знаний со скалярными оценками. Соответственно, класс пропагатора содержит 2 метода для двух видов свидетельства. 
+ 
+ Метод PropagateStochasticEvidence используется в случае стохастического свидетельства. Метод принимает 2 параметра: ScalarConjKP\_I firstKP --- первый фрагмент знаний, ScalarConjKP\_I secondKP --- второй фрагмент знаний, в который нужно пропагировать виртуальное свидетельство. В этом методе сначала создается виртуальное свидетельство, далее оно пропагируется с помощью объекта propagator класса  StochasticScalarConjunctsLocalPropagator и его экземплярных методов propagate и getResult. 
+ \begin{lstlisting} [caption = Реализация метода PropagateStochasticEvidence]
+ public ScalarConjKP_I PropagateStochasticEvidence(ScalarConjKP_I firstKP, ScalarConjKP_I secondKP)
+{
+    var evidence = firstKP.GetSeparator(secondKP);
+    var propagator = new StochasticScalarConjunctsLocalPropagator(secondKP);
+    propagator.propagate(evidence);
+    return propagator.getResult();
+}\end{lstlisting}
+ 
+Второй метод PropagateImpreciseEvidence нужен для пропагирования неточного виртуального свидетельства во второй фрагмент знаний, содержащий скалярные оценки. Пропагирование виртуального свидетельства осуществляется аналогично с помощью методов реализованного ранее класса ImpreciseScalarConjunctsLocalPropagator.
+ \begin{lstlisting} [caption = Реализация метода PropagateImpreciseEvidence]
+public IntervalConjKP_I PropagateImpreciseEvidence(IntervalConjKP_I firstKP, ScalarConjKP_I secondKP)
+{
+    var evidence = firstKP.GetSeparator(secondKP);
+    var propagator = new ImpreciseScalarConjunctsLocalPropagator();
+    propagator.setPattern(secondKP);
+    propagator.propagate(evidence);
+    return propagator.getResult();
+}
+\end{lstlisting}
+
+ Второй класс VirtualEvidenceIntervalConjPropagator  отвечает за распространение виртуального  свидетельства из первого фрагмента знаний во второй ФЗ с интервальными оценками. Содержит в себе два аналогичных метода для пропагации свидетельства в двух различных ситуациях.
+ 
+ Метод PropagateStochasticEvidence используется для распространения стохастического виртуального свидетельства в ФЗ с интервальными оценками. Метод принимает два параметра: ScalarConjKP\_I firstKP --- первый фрагмент знаний, IntervalConjKP\_I secondKP --- второй фрагмент знаний, в который нужно пропагировать виртуальное свидетельство.  Внутри метода создается виртуальное свидетельство и далее оно пропагируется с помощью методов объекта propagator ранее реализованного класса  StochasticIntervalConjunctsLocalPropagator.
+\begin{lstlisting}[caption = Реализация метода PropagateStochasticEvidence]
+public IntervalConjKP_I PropagateStochasticEvidence(ScalarConjKP_I firstKP, IntervalConjKP_I secondKP)
+{
+    var evidence = firstKP.GetSeparator(secondKP);
+    var propagator = new StochasticIntervalConjunctsLocalPropagator();
+
+    propagator.setPattern(secondKP);
+    propagator.propagate(evidence);
+
+return propagator.getResult();
+}
+\end{lstlisting}
+
+Второй метод PropagateImpreciseEvidence нужен для пропагирования неточного виртуального свидетельства из первого ФЗ во второй. Пропагирование виртуального свидетельства осуществляется аналогично с помощью методов объекта propagator ранее реализованного класса ImpreciseIntervalConjunctsLocalPropagator.
+\begin{lstlisting} [caption = Реализация метода PropagateImpreciseEvidence]
+public IntervalConjKP_I PropagateImpreciseEvidence(IntervalConjKP_I firstKP, IntervalConjKP_I secondKP)
+{
+    var evidence = firstKP.GetSeparator(secondKP);
+    var propagator = new ImpreciseIntervalConjunctsLocalPropagator();
+
+    propagator.setPattern(secondKP);
+    propagator.propagate(evidence);
+
+    return propagator.getResult();
+}\end{lstlisting}
+
+Аналогичные классы реализованы для фрагментов знаний, построенных над идеалами дизъюнктов: VirtualEvidenceScalarDisjPropagator и VirtualEvidenceIntervalDisjPropagator, а также классы для ФЗ, построенных над множествами квантов: VirtualEvidenceScalarQuantPropagator и VirtualEvidenceIntervalQuantPropagator.  Каждый класс содержит методы PropagateStochasticEvidence и PropagateImpreciseEvidence для пропагации одного из видов виртуального свидетельства.
+
+	   

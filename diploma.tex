@@ -1,22 +1,11 @@
-% Тут используется класс, установленный на сервере Papeeria. На случай, если
-% текст понадобится редактировать где-то в другом месте, рядом лежит файл matmex-diploma-custom.cls
-% который в момент своего создания был идентичен классу, установленному на сервере.
-% Для того, чтобы им воспользоваться, замените matmex-diploma на matmex-diploma-custom
-% Если вы работаете исключительно в Papeeria то мы настоятельно рекомендуем пользоваться
-% классом matmex-diploma, поскольку он будет автоматически обновляться по мере внесения корректив
-%
-
-% По умолчанию используется шрифт 14 размера. Если нужен 12-й шрифт, уберите опцию [14pt]
-%\documentclass[14pt]{matmex-diploma}
 \documentclass[14pt]{matmex-diploma-custom}
 
 \usepackage{tocvsec2}
 \usepackage{amssymb}
 \usepackage{listings}
-
 \usepackage{xcolor}
 \usepackage[font=small,labelsep=period]{caption}
-
+%%% \usepackage{concrete}
 % Calligraphy letters
 % use: \mathcal
 \usepackage[mathscr]{eucal}
@@ -47,18 +36,19 @@
     keepspaces = true,
     language=[Sharp]C,
     captionpos=b,
-    frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+   frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
     showspaces=false,
     showtabs=false,
     breaklines=true,
     showstringspaces=false,
     breakatwhitespace=true,
+    basicstyle=\linespread{0.8}
     escapeinside={(*@}{@*)},
     commentstyle=\color{greencomments},
     morekeywords={partial, var, value, get, set},
     keywordstyle=\color{bluekeywords},
     stringstyle=\color{redstrings},
-    basicstyle=\footnotesize\ttfamily,
+    basicstyle=\small\ttfamily,
 }
 
 
@@ -74,166 +64,142 @@
 {\par\noindent{\bf Доказательство.}} % команды для \begin
 {\hfill$\scriptstyle\blacksquare$} % команды для \end
 
-\newcommand\abs[1]{\left|#1\right|}
-\newcommand\absBigg[1]{\Biggl|#1\Biggr|}
+
 
 \newcommand{\Pc}{\mathbf{P}_\mathrm{c}}
+\newcommand{\Pq}{\mathbf{P}_\mathrm{q}}
 \newcommand{\In}{\mathbf{I}_n}
-\newcommand{\PcHat}{\mathbf{\widehat{P}}_\mathrm{c}}
-\newcommand{\PcEv}{\mathbf{P}_\mathrm{c}^{\mathrm{ev}}}
-
-\newcommand{\evidence}{\langle c_{i}, c_{j} \rangle}
-\newcommand{\evidenceNumbersGind[1]}{\langle \mathrm{GInd}(#1,m),\mathrm{GInd}(\powTwo-#1,m)\rangle}
-\newcommand{\evidenceNumbers}{\langle i, j \rangle}
-
-\newcommand{\redistributor}{\mathbf{r}^{\evidenceNumbers}}
-\newcommand{\redistributorGInd[1]}{\mathbf{r}^{\evidenceNumbersGind[#1]}}
-
-\newcommand{\deltaP}{d\left(p,\widehat{p}\right)}
-
-\newcommand{\powTwo}{2^{n^{'}}-1}
-
-\newcommand\p{p}
-\newcommand\pHat{\widehat{p}}
-
-\newcommand\probability[1]{p\left(#1\right)}
-\newcommand\probabilityHat[1]{p\left(#1\right)}
-
-
-\newcommand{\PVector}[1]{\mathbf{P}_\mathrm{#1}}
-
-\newcommand{\IFirst}{\mathbf{I}_1}
-
 \newcommand{\Jn}{\mathbf{J}_n}
-\newcommand{\JFirst}{\mathbf{J}_1}
-
-\newcommand{\Ln}{\mathbf{L}_n}
-\newcommand{\Kn}{\mathbf{K}_n}
-\newcommand{\HMatrix}{\mathbf{H}}
-\newcommand{\Hij}{\HMatrix^{\evidenceNumbers}}
-
-\newcommand{\Pq}{\PVector{q}}
-\newcommand{\Pd}{\PVector{d}}
-\newcommand{\PdApost}{\PVector{d}^{'}}
-\newcommand{\PdijApost}{\PVector{d}^{', \evidenceNumbers}}
-
-\newcommand{\Pcicj}{p\evidence}
-
-\newcommand{\Tij}{\mathbf{T}^{\evidenceNumbers}}
-\newcommand{\TijTilda}{\widetilde{\mathbf{T}}^{\evidenceNumbers}}
-
-\newcommand{\squareMatrix}[2]{\begin{pmatrix} #1 \\ #2 \end{pmatrix}}
-
-\newcommand{\TPlusMatrix}{\squareMatrix{0 & 1}{0 & 1}}
-\newcommand{\TMinusMatrix}{\squareMatrix{1 & -1}{0 & 0}}
-\newcommand{\TZeroMatrix}{\squareMatrix{1 & 0}{0 & 1}}
-
-
-\newcommand{\HPlusMatrix}{\squareMatrix{0 & 0}{0 & 1}}
-\newcommand{\HMinusMatrix}{\squareMatrix{1 & 0}{0 & 0}}
-\newcommand{\HZeroMatrix}{\squareMatrix{1 & 0}{0 & 1}}
-
-\newcommand{\Mij}{\mathbf{M}^{\evidenceNumbers}}
-\newcommand{\MijTilda}{\widetilde{\mathbf{M}}^{\evidenceNumbers}}
-
-\newcommand{\MPlusMatrix}{\squareMatrix{1 & -1}{0 & 0}}
-\newcommand{\MMinusMatrix}{\squareMatrix{0 & 1}{0 & 1}}
-\newcommand{\MZeroMatrix}{\squareMatrix{1 & 0}{0 & 1} }
-
-\newcommand{\Pij}{\mathbf{P}^{\evidenceNumbers}}
-\newcommand{\Pijc}{\PVector{c}^{\evidenceNumbers}}
-\newcommand{\Pijq}{\PVector{q}^{\evidenceNumbers}}
-
-\newcommand{\dij}{\mathbf{d}^{\evidenceNumbers}}
-\newcommand{\dijTilda}{\widetilde{\mathbf{d}}^{\evidenceNumbers}}
-
-\newcommand{\dPlusMatrix}{\squareMatrix{1}{-1}}
-\newcommand{\dMinusMatrix}{\squareMatrix{0}{1}}
-\newcommand{\dZeroMatrix}{\squareMatrix{1} {0}}
-
+\newcommand{\Qmatr}{\mathbf{Q}}
+\newcommand{\V}{\mathbf{V}}
+\renewcommand{\G}{\mathbf{G}}
+\renewcommand{\T}{\mathbf{T}}
+\newcommand{\evidenceNumbers}{\langle i, j \rangle}
+\newcommand{\Tij}{\T^{\evidenceNumbers}}
+\newcommand{\TijTilda}{\widetilde{\T}^{\evidenceNumbers}}
+\newcommand{\QijTild}{\widetilde{\Qmatr}^{\evidenceNumbers}}
+\newcommand{\VijTilda}{\widetilde{\V}^{\evidenceNumbers}}
 \newcommand{\rij}{\mathbf{r}^{\evidenceNumbers}}
 \newcommand{\rijTilda}{\widetilde{\mathbf{r}}^{\evidenceNumbers}}
-
-\newcommand{\rPlusMatrix}{\squareMatrix{0} {1}}
-\newcommand{\rMinusMatrix}{\squareMatrix{1}{-1}}
-\newcommand{\rZeroMatrix}{\squareMatrix{1}{0}}
-
+\newcommand{\ev}{\mathrm{ev}}
+\newcommand{\Gind}{\mathrm{GInd}}
+\newcommand{\Selector}{\mathbf{s}}
 \newcommand{\sij}{\mathbf{s}^{\evidenceNumbers}}
 \newcommand{\sijTilda}{\widetilde{\mathbf{s}}^{\evidenceNumbers}}
-
-\newcommand{\sPlusMatrix}{\squareMatrix{0}{1}}
-\newcommand{\sMinusMatrix}{\squareMatrix{1}{0}}
-\newcommand{\sZeroMatrix}{\squareMatrix{1}{1}}
-
-\graphicspath{{Graphs/}}
- 
+\newcommand{\Pd}{\mathbf{P}_\mathrm{d}}
+\newcommand{\Ln}{\mathbf{L}_n}
+\newcommand{\On}{\mathbf{F}_n}
+\newcommand{\Kn}{\mathbf{K}_n}
+\renewcommand{\M}{\mathbf{M}}
+\newcommand{\Mij}{\M^{\evidenceNumbers}}
+\newcommand{\dij}{\mathbf{d}^{\evidenceNumbers}}
+\newcommand{\dijTilda}{\widetilde{\mathbf{d}}^{\evidenceNumbers}}
+\newcommand{\MijTilda}{\widetilde{\mathbf{M}}^{\evidenceNumbers}}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{definition}[theorem]{Определение}
+ \setcounter{tocdepth}{2}
+ \usepackage{lastpage}
+ \usepackage{mathtools}
 \begin{document}
 % Год, город, название университета и факультета предопределены,
 % но можно и поменять.
 % Если англоязычная титульная страница не нужна, то ее можно просто удалить.
 \filltitle{ru}{
-    chair              = {Направление <<Математическое обеспечение и администрирование информационных систем>> \\ Профиль <<?>>},
-    title              = {Алгебраические байесовские сети: синтез глобальных структур и алгоритмы логико-вероятностного вывода \\(проектная работа)},
-    %   master - Диплом магистра
-    %   bachelor - Диплом бакалавра
-    type               = {master},
+    chair              = {Фундаментальная информатика и информационные технологии\\ Информационные технологии},
+    title              = {Алгебраические байесовские сети:\\ синтез глобальных структур и алгоритмы логико-вероятностного вывода (проектная работа)},
+    type               = {bachelor},
     position           = {студента},
-    group              = 646,
-    author             = {Екатерина Андреевна Мальчевская},
-    supervisorPosition = { проф.\,каф.\,инф.,\,д.\,ф.-м.\,н.,\,доц.},
+    group              = 14.Б08-мм,
+    author             = {Анна Викторовна Шляк},
+    supervisorPosition = {проф. каф. инф., д. ф.-м. н., доц.},
     supervisor         = {Тулупьев А.\,Л.},
-    reviewerPosition   = {?},
-    reviewer           = {? },
-    chairHeadPosition  = {д.\,ф.-м.\,н., профессор},
-    chairHead          = {? К.\,Х.},
-%   university         = {Санкт-Петербургский Государственный Университет},
-%   faculty            = {Математико-механический факультет},
-%   city               = {Санкт-Петербург},
-%   year               = {2013}
+    reviewerPosition   = {проф. каф. инф., д. ф.-м. н., доц. },
+    reviewer           = {Фильченков А. А.},
+    chairHeadPosition  = {?},
+    chairHead          = {?},
+    faculty            = {Математико-механический факультет},
+    city               = {Санкт-Петербург},
+    year               = {2018}
 }
 \filltitle{en}{
-    chair              = {Mathematical Software and Information Systems Administration \\ ??},
-    title              = {Empty subset as closed set},
-    author             = {Ekaterina Malchevskaia},
-    supervisorPosition = {Professor,\,PhD,\,Associate Professor},
-    supervisor         = {Tulupyev A. L.},
-    reviewerPosition   = {?},
-    reviewer           = {?},
-    chairHeadPosition  = {professor},
-    chairHead          = {Christobal Junta},
+    chair              = {Fundamental informatics and information technologies \\ Information technologies},
+    title              = {Algebraic Bayesian networks: \\global structure synthesis and probabilistic-logic inference algorithms(project work)},
+        type               = {bachelor},
+    author             = {Anna Shliak},
+    supervisorPosition = {Prof. Computer Science Department, Dc. Sc. in Math, Assoc. Prof.},
+    supervisor         = {Alexander Tulupyev},
+    reviewerPosition   = {As. Prof. Computer Technology Department, Ph. D. Sc. in Math},
+    reviewer           = {Andrey Filchenkov},
+    chairHeadPosition  = {?},
+    chairHead          = {?},
 }
 \maketitle
 \tableofcontents
-% У введения нет номера главы
- 
-    % Introduction
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \input{0-Intro}
-   
-    % Chapter 1
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \input{1-Ch1}
+\section*{Введение}
+\input{introduction.tex}
 
-    % Chapter 2
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \input{2-Ch2}
-    
-    % Chapter 3
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \input{3-Ch3}
+\section{Автоматизация алгоритмов вывода в алгебраической байесовской сети}
+\subsection{Введение}
+\input{cap1/intro1.tex}
+\subsection{Инструменты для работы с алгебраическими байесовскими сетями}
+\input{cap1/scope.tex}
+\subsection{Библиотеки для работы с алгебраическими байесовскими сетями}
+\input{cap1/realizations.tex}
+\subsection{Цели и задачи исследования}
+\input{cap1/modernization.tex}
+\subsection{Выводы по главе}
+\input{cap1/concl1.tex}
 
-    % Chapter 4
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \input{4-Ch4}
- 
-    % Conclusion
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \input{5-Concl}
-   
+\section{Элементы теории алгебраических байесовских сетей}\
+\subsection{Введение}
+\input{cap2/intro2.tex}
+\subsection{Математические модели фрагмента знаний и алгебраической байесовской сети}
+\input{cap2/ABN.tex}
+\subsection{Локальный логико"=вероятностный вывод}
+\input{cap2/local.tex}
+\subsection{Глобальный апостериорный логико"=вероятностный вывод}
+\input{cap2/conjGlobal.tex}
+\subsection{Выводы по главе}
+\input{cap2/concl2.tex}
+
+
+\section{Матрично"=векторная  формализация глобального логико"=вероятностного вывода}\label{cap3}
+\subsection{Введение}
+\input{cap3/intro3.tex}
+\subsection{Матрично"=векторная интерпретация для функции $\Gind$}
+\input{cap3/GIndFormalization.tex}
+\subsection{Формализация формирования матрицы перехода}
+\input{cap3/Qformalization.tex}
+\subsection{Уравнения глобального логико"=вероятностного вывода}
+\input{cap3/equations.tex}
+\subsection{Выводы по главе}
+\input{cap3/concl3.tex}
+
+
+\section{Программная реализация}
+\subsection{Введение}
+\input{cap4/intro4.tex}
+\subsection{Архитектура программного комплекса}
+\input{cap4/architecture.tex}
+\subsection{Описание классов и методов}
+\input{cap4/Program.tex}
+\subsection{Примеры работы алгоритмов}
+\input{cap4/code.tex}
+\subsection{Выводы по главе}
+\input{cap4/concl4.tex}
+
+\section*{Заключение}
+\input{conclusion.tex}
+
 \setmonofont[Mapping=tex-text]{CMU Typewriter Text}
-\bibliographystyle{ugost2008ls}   
-% Bibliography (CHANGE)
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %  \input{biblio}
-%\bibliography{diploma.bib}
+\bibliography{diploma}
+\input{diploma.bib}
+
+\section*{Приложение А. Вычислительные эксперименты по распространению виртуального свидетельства}
+\input{examples/exampleConj.tex}
+\input{examples/exampleDisj.tex}
+\input{examples/exampleQuants.tex}
+\section*{Приложение B. Публикации по теме работы}
+\input{publ.tex}
 \end{document}
+   

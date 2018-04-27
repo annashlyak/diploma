@@ -1,0 +1,148 @@
+\subsubsection{Задачи локального логико"=вероятностного вывода}
+Локальный логико"=вероятностный вывод делится на априорный и апостериорный~\cite{ 184, 121, 109}. Задачей локального априорного вывода является построение оценки истинности пропозициональной формулы, заданной над тем же алфавитом $\mathcal{A}$, что и данный фрагмент знаний $\mathscr{C}$. 
+Для описания локального апостериорного вывода введем понятие свидетельства.
+\begin{definition}[\cite{184}]
+Под свидетельством мы понимаем новые «обуславливающие» данные, которые поступили во фрагмент знаний, и с учетом которых нам требуется пересмотреть все (или некоторые) оценки.  Для обозначения свидетельства будут использоваться угловые скобки --- $\langle ...\rangle$.
+\end{definition}
+
+Локальный апостериорный вывод решает 2 задачи: во-первых, оценить вероятности истинности свидетельства при данных оценках вероятности истинности элементов фрагмента знаний, и, во-вторых, оценить условные вероятности истинности элементов фрагмента знаний, предполагая, что свидетельство истинно.
+Свидетельства бывают детерминированными, стохастическими и неточными~\cite{184, 109}. В данной работе в основном будут рассматриваться стохастические свидетельства, которые можно трактовать как набор детерминированных свидетельств в сочетании с заданным на них распределением вероятности.
+\begin{definition}[\cite{184}]
+	Детерминированное свидетельство --- это предположение, что один или несколько атомов получили конкретное означивание. 
+\end{definition}
+
+Детерминированное свидетельство обозначим $\langle i,j\rangle$, где $i$ --- индексы положительно означенных атомов, $j$ --- индексы отрицательно означенных атомов.	
+\begin{definition}[\cite{184}]
+Стохастическое свидетельство --- предположение о том, что над $C^\prime$ --- подыдеале $C$, задан непротиворечивый фрагмент знаний со скалярными оценками,  который определяет вероятности истинности элементов соответствующего подыдеала. Данное свидетельство обозначается $\langle (C^\prime, \Pc) \rangle$.
+\end{definition}
+\begin{definition}[\cite{184}]
+	Неточное свидетельство --- это предположение о том, что над $C^\prime$ --- подыдеале $C$,  задан непротиворечивый фрагмент знаний с интервальными оценками, который определяет вероятности истинности элементов соответствующего подыдеала. Данное свидетельство обозначается $\langle (C^\prime, \Pc^-, \Pc^+) \rangle$.
+\end{definition}
+
+\subsubsection{Локальный апостериорный вывод над конъюнктами}
+
+Приведем решение первой и второй задач локального апостериорного вывода, когда  фрагмент знаний $(C, \Pc)$ над идеалом конъюнктов $C$ содержит скалярные оценки и в него поступило стохастическое свидетельство $(C^{\ev}, \Pc^{\ev})$. 
+
+Решение первой задачи~\cite{91}:
+\begin{equation} \label{conjStochFirst}
+  p(\langle C^{\ev}, \Pc^{\ev} \rangle) =\sum_{i=0}^{2^{n^\prime}-1}  (\mathbf{r}^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle},\Pc) \In\Pc^{a}[i],
+\end{equation} 
+где $\rij = \otimes^{0}_{k=n-1}\rijTilda_k$, \\
+\begin{math}
+    \rijTilda_k = 
+    \begin{cases}
+        \mathbf{r}^+ \text{, если $x_k$ входит в $c_i$,}\\
+        \mathbf{r}^- \text{, если $x_k$ входит в $c_j$,}\\
+        \mathbf{r}^\circ  \text{, иначе;}
+    \end{cases}
+\end{math}\\
+\begin{math}
+    \mathbf{r}^+ = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+    \mathbf{r}^- = \begin{pmatrix*}[r] 1 \\ -1 \end{pmatrix*},
+    \mathbf{r}^\circ = \begin{pmatrix} 1 \\ 0 \end{pmatrix}
+\end{math},\\
+$\Gind(i,m)$ --- функция, которая по индексу наибольшего элемента $C^{\ev}$ в алфавите $\mathcal{A}$ и индексу конъюнкта в алфавите $\mathcal{A}^{\ev}$ возвращает индекс соответствующего конъюнкта в алфавите $\mathcal{A}$.
+
+Решение второй задачи апостериорного вывода находится по формуле~\cite{91}:
+\begin{equation} \label{conj1}
+\Pc^a=\sum_{i=0}^{2^{n^\prime}-1}\dfrac{\T^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle }\Pc}{(\mathbf{r}^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle},\Pc)}\In\Pc^{\ev}[i],
+\end{equation} 
+где $\Pc^a$ --- вектор апостериорных вероятностей истинности элементов данного фрагмента знаний,\\
+\begin{math}
+    \Tij = \TijTilda_{n-1}\otimes \TijTilda_{n-2} \otimes ...\otimes \TijTilda_{0}
+\end{math}, \\
+\begin{math}
+    \TijTilda_k = 
+    \begin{cases}
+        \T^+ \text{, если $x_k$ входит в $c_i$,}\\
+        \T^- \text{, если $x_k$ входит в $c_j$,}\\
+        \T^\circ  \text{, иначе;}
+    \end{cases}
+\end{math} \\ 
+\begin{math}
+    \T^+ = \begin{pmatrix} 0 & 1 \\ 0 & 1 \end{pmatrix},
+    \T^- = \begin{pmatrix*}[r] 1 & -1 \\ 0 & 0 \end{pmatrix*},
+\T^\circ = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}.
+\end{math}
+
+\subsubsection{Локальный апостериорный вывод над дизъюнктами}
+
+Приведем имеющиеся результаты для локального ЛВВ для модели ФЗ, построенной над идеалами дизъюнктов~\cite{76, 49}. Рассмотрим решение первой и второй задач  локального апостериорного вывода для стохастических свидетельств.
+
+Решение первой задачи~\cite{49}:
+\begin{equation}\label{dis1}
+  p(\langle C^{\ev}, \Pd^{\prime \ev} \rangle) =\sum_{i=0}^{2^{n^\prime}-1}  (\mathbf{d}^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle},\Pd^{\prime}) \Ln\Pd^{\prime a}[i],
+\end{equation}
+где
+$\dij = \otimes^{0}_{k=n-1}\dijTilda_k$,\\
+\begin{math}
+    \dijTilda_k = 
+    \begin{cases}
+        \mathbf{d}^+ \text{, если $x_k$ входит в $c_i$,}\\
+        \mathbf{d}^- \text{, если $x_k$ входит в $c_j$,}\\
+        \mathbf{d}^\circ  \text{, иначе;}
+    \end{cases}
+\end{math} \\ 
+\begin{math}
+    \mathbf{d}^+ = \begin{pmatrix*}[r] 1 \\ -1 \end{pmatrix*},
+    \mathbf{d}^- = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+    \mathbf{d}^\circ = \begin{pmatrix} 1 \\ 0 \end{pmatrix},
+\end{math}\\
+$\Pd^\prime = \mathbf{1} - \Pd$,\\
+$\Gind(i,m)$ --- функция, которая по индексу наибольшего элемента $C^{\ev}$ в алфавите $\mathcal{A}$ и индексу дизъюнкта в алфавите $\mathcal{A}_{\ev}$ возвращает индекс соответствующего дизъюнкта в алфавите $\mathcal{A}$.
+
+Решение второй задачи~\cite{49}:
+\begin{equation}\label{dis2}
+\Pd^{\prime a} =\sum_{i=0}^{2^{n^\prime}-1}\dfrac{\M^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle }\Pd^{\prime}}{(\mathbf{d}^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle},\Pd^{\prime})}\Ln\Pd^{\prime \ev}[i],
+\end{equation}
+где 
+\begin{math}
+    \Mij = \otimes^{0}_{k=n-1}\MijTilda_k
+\end{math},\\
+\begin{math}
+    \MijTilda_k = 
+    \begin{cases}
+        \M^+ \text{, если $x_k$ входит в $c_i$,}\\
+        \M^- \text{, если $x_k$ входит в $c_j$,}\\
+        \M^\circ  \text{, иначе;}
+    \end{cases}
+\end{math} \\ 
+\begin{math}
+    \M^+ = \begin{pmatrix*}[r] 1 & -1 \\ 0 & 0 \end{pmatrix*},
+    \M^- = \begin{pmatrix} 0 & 1 \\ 0 & 1 \end{pmatrix},
+    \M^\circ = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+\end{math}\\
+и $\Pd^{\prime , \evidenceNumbers} = \mathbf{1} - \Pd^{\evidenceNumbers}$.
+
+\subsubsection{Локальный апостериорный вывод над квантами}
+Рассмотрим решение первой и второй задачи апостериорного локального ЛВВ, когда во фрагмент знаний со скалярными оценками, построенный над множеством пропозиций-квантов, пришло стохастическое свидетельство. Подробнее про локальный ЛВВ над квантами можно прочитать в~\cite{74}.
+
+Решение первой задачи~\cite{74}:
+\begin{equation} \label{quantsFirst}
+  p(\langle C^{\ev}, \Pq^{\ev} \rangle) =\sum_{i=0}^{2^{n^\prime}-1}  (\Selector^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle},\Pq) \Pq^{a}[i],
+\end{equation} 
+где вектор-селектор $\sij = \otimes^{0}_{k=n-1}\sijTilda_k$, \\
+\begin{math}
+    \sijTilda_k = 
+    \begin{cases}
+        \Selector^+ \text{, если $x_k$ входит в $c_i$,}\\
+        \Selector^- \text{, если $x_k$ входит в $c_j$,}\\
+        \Selector^\circ  \text{, иначе;}
+    \end{cases}
+\end{math} \\
+и 
+\begin{math}
+    \Selector^+ = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+    \Selector^- = \begin{pmatrix} 1 \\ 0 \end{pmatrix},
+    \Selector^\circ = \begin{pmatrix} 1 \\ 1 \end{pmatrix}
+\end{math},\\
+$\Gind(i,m)$ --- функция, которая по индексу кванта $i$ в алфавите, над которым построено свидетельство, и индексу $m$ наибольшего элемента $\Pq^a$ в исходном алфавите сопоставляет индекс свидетельства с индексом множества квантов поступившего свидетельства в исходном алфавите.
+
+Теперь рассмотрим решение второй задачи~\cite{74}. Пусть дан фрагмент знаний $(C, \Pq)$ со скалярными оценками и стохастическое свидетельство $(C^{\ev}, \Pq^{\ev})$.
+
+Решение второй задачи апостериорного вывода находится по формуле:
+\begin{equation} \label{quants1}
+ \Pq^{\evidenceNumbers}=\sum_{i=0}^{2^{n^\prime}-1}\dfrac{{\Selector^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle }}\circ \Pq}{(\Selector^{\langle \Gind(i,m),\,\Gind(2^{n^\prime}-1-i,m)\rangle},\Pq)}\Pq^{\ev}[i],
+\end{equation}
+где $\circ$ обозначает произведение Адамара~(операция покомпонентного произведения векторов одинаковой размерности).
+

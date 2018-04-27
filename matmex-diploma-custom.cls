@@ -59,7 +59,7 @@
 %% Теперь у нас будут переносы слов
 \usepackage{polyglossia}
 \setdefaultlanguage{russian}
-
+\setkeys{russian}{babelshorthands=true}
 
 %% Отступ в первом абзаце
 \usepackage{indentfirst}

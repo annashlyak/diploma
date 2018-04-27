@@ -1,0 +1,112 @@
+\subsection*{Пример использования уравнения для пропагации виртуального свидетельства над идеалом конъюнктов}
+ \addcontentsline{toc}{subsection}{Пример использования уравнения для пропагации виртуального свидетельства над идеалами конъюнктов}
+Пусть даны два фрагмента знаний над алфавитами $\mathcal{A}_1 = \{x_1, x_2\}$ и  $\mathcal{A}_2 = \{x_1, x_3\}$, и пусть в первый фрагмент знаний поступило стохастическое свидетельство. Пересчитаем оценки в данных ФЗ с учетом поступившего свидетельства, а затем распространим его влияние во второй ФЗ:
+\begin{equation*}
+\Pc^1 =  \begin{pmatrix}
+1 \\ p(x_1) \\ p(x_2) \\ p(x_2x_1)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.8\\ 0.7\\ 0.6
+\end{pmatrix}, 
+\Pc^2 =  \begin{pmatrix}
+1 \\ p(x_1) \\ p(x_3) \\ p(x_3x_1)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.4\\ 0.5\\ 0.1 
+\end{pmatrix}.
+\end{equation*}
+
+Пусть поступившее свидетельство будет над алфавитом
+$\mathcal{A}_{\ev} = \{x_2\}$:
+\begin{equation*}
+\Pc^{\ev} = \begin{pmatrix}  1 \\ p(x_2)	\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.4
+\end{pmatrix}.
+\end{equation*}
+
+Воспользуемся уравнением \ref{conjG}. Посчитаем матрицу $\G$ по формуле \ref{G}:
+$\G = \begin{pmatrix} 1 \\ 0 \end{pmatrix}.$
+
+$\chi^0 = \begin{pmatrix} 0 \end{pmatrix}, 
+\G \chi^0 =  \begin{pmatrix} 1 \\ 0  \end{pmatrix} \begin{pmatrix} 0 \end{pmatrix} = \begin{pmatrix}  0 \\ 0 \end{pmatrix}$,
+$\chi^1 = \begin{pmatrix} 1 \end{pmatrix} $, 
+$ \G \chi^1 =  \begin{pmatrix} 1 \\ 0 \end{pmatrix} \begin{pmatrix} 1 \end{pmatrix} = \begin{pmatrix}  1 \\ 0 \end{pmatrix}$,
+
+\begin{equation*}
+\T^{\langle 00, 10 \rangle} = \T^- \otimes \T^\circ = 
+\begin{pmatrix*}[r] 1 & -1 \\ 0 & 0 \end{pmatrix*} \otimes
+\begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix} = 
+\begin{pmatrix*}[r] 1 & 0 & -1 & 0 \\ 0 & 1 & 0 & -1 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\mathbf{r}^{\langle 00, 10 \rangle} = \mathbf{r}^- \otimes \mathbf{r}^\circ = \begin{pmatrix*}[r] 1 \\ -1 \end{pmatrix*} \otimes \begin{pmatrix}  1 \\ 0 \end{pmatrix} = \begin{pmatrix*}[r]  1 \\ 0 \\ -1 \\ 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\T^{\langle 10, 00 \rangle} = \T^+ \otimes \T^\circ = 
+\begin{pmatrix} 0 & 1 \\ 0 & 1 \end{pmatrix} \otimes
+\begin{pmatrix} 1 &0 \\ 0 & 1\end{pmatrix}  =
+\begin{pmatrix} 0 &0 & 1 & 0 \\ 0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{r}^{\langle 10, 00 \rangle} = \mathbf{r}^+ \otimes \mathbf{r}^\circ = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \otimes \begin{pmatrix}  1 \\ 0 \end{pmatrix} = \begin{pmatrix}  0 \\ 0 \\ 1 \\ 0 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{I}_1\Pc^{\ev} = \begin{pmatrix*}[r] 1 & -1 \\ 0 & 1 \end{pmatrix*} \begin{pmatrix}1 \\ 0.4\end{pmatrix} = \begin{pmatrix}
+0.6 \\ 0.4 \end{pmatrix}.
+\end{equation*}
+
+Подставим в формулу \ref{conjG}, посчитаем и получим, что $\Pc^{1,a} = \begin{pmatrix}
+1 \\  \frac{26}{35} \\ 0.4 \\ \frac{12}{35}
+\end{pmatrix}$.
+
+Теперь найдем вектор виртуального свидетельства. Виртуальное свидетельство будет построено над алфавитом 
+$\mathcal{A}_{\ev} = \mathcal{A}_1 \cap \mathcal{A}_2 = \{x_1, x_2\} \cap \{x_1, x_3\} = \{x_1\}$.
+\begin{equation*}
+\Qmatr = \Qmatr^- \otimes \Qmatr^+ =  \begin{pmatrix} 1 & 0  \end{pmatrix} \otimes
+  \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix}
+1 & 0  & 0 & 0 \\ 0 & 1 & 0 & 0
+\end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\Pc^{\ev} = \Qmatr\Pc^{1, a} =  \begin{pmatrix}
+1 & 0  & 0 & 0 \\ 0 & 1  & 0 & 0
+\end{pmatrix} \begin{pmatrix}
+1 \\  \frac{26}{35} \\ 0.4 \\ \frac{12}{35}
+\end{pmatrix} = \begin{pmatrix}
+1 \\ \frac{26}{35}
+\end{pmatrix}.
+\end{equation*} 
+
+Воспользуемся уравнением \ref{conjglob2} для пропагации виртуального свидетельства:
+$\G = \begin{pmatrix} 0 \\ 1\end{pmatrix}.$
+
+$\chi^0 = \begin{pmatrix} 0 \end{pmatrix} $, 
+$ \G \chi^0 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \begin{pmatrix} 0 \end{pmatrix} = \begin{pmatrix}  0 \\ 0 \end{pmatrix}$,
+$\chi^1 = \begin{pmatrix} 1 \end{pmatrix} $, 
+$ \G \chi^1 =  \begin{pmatrix} 0 \\ 1 \end{pmatrix}\begin{pmatrix} 1 \end{pmatrix} = \begin{pmatrix}  0 \\ 1 \end{pmatrix}$,
+\begin{equation*}
+\T^{\langle 00, 01 \rangle} = \T^\circ \otimes \T^- = 
+\begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix} \otimes
+\begin{pmatrix*}[r] 1 & -1 \\ 0 & 0 \end{pmatrix*} = 
+\begin{pmatrix*}[r] 1 & -1 & 0  & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 1 & -1 \\ 0 & 0 & 0 & 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\mathbf{r}^{\langle 00, 01 \rangle} = \mathbf{r}^\circ \otimes \mathbf{r}^- = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \otimes \begin{pmatrix*}[r]  1 \\ -1 \end{pmatrix*} = \begin{pmatrix*}[r] 1 \\ -1 \\ 0 \\ 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\T^{\langle 01, 00 \rangle} = \T^\circ \otimes \T^+ = 
+\begin{pmatrix} 1 &0 \\ 0 & 1\end{pmatrix}  \otimes
+\begin{pmatrix} 0 & 1 \\ 0 & 1 \end{pmatrix} =
+\begin{pmatrix} 0 &1 & 0 & 0 \\ 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1\\ 0 & 0 & 0 & 1 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{r}^{\langle 01, 00 \rangle} = \mathbf{r}^\circ \otimes \mathbf{r}^+ = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \otimes \begin{pmatrix}  0 \\ 1 \end{pmatrix} = \begin{pmatrix}  0 \\ 1 \\ 0 \\ 0 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{I}_1\Pc^{\ev} = \begin{pmatrix*}[r] 1 & -1 \\ 0 & 1 \end{pmatrix*} \begin{pmatrix}1 \\  \frac{26}{35} \end{pmatrix} = \begin{pmatrix}
+\frac{9}{35} \\ \frac{26}{35} \end{pmatrix}.
+\end{equation*}
+
+Подставим в формулу выше, посчитаем и получим, что $\Pc^{2,a} = \begin{pmatrix}
+1 \\ \frac{26}{35} \\ \frac{5}{14} \\ \frac{13}{70}
+\end{pmatrix}$.

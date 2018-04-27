@@ -1,0 +1,114 @@
+\subsection*{Пример использования уравнения для пропагации виртуального свидетельства над идеалом дизъюнктов}
+ \addcontentsline{toc}{subsection}{Пример использования уравнения для пропагации виртуального свидетельства над идеалами дизъюнктов}
+Пусть дан фрагмент знаний над алфавитом $\mathcal{A}_1 = \{x_1, x_2\}$, и пусть в него поступило стохастическое свидетельство. Пересчитаем оценки в данном ФЗ с учетом поступившего свидетельства. Далее распространим влияние этого свидетельства из данного ФЗ в другой ФЗ над алфавитом  $\mathcal{A}_2 = \{x_1, x_3\}$:
+\begin{equation*}
+\Pd^{\prime 1} =  \begin{pmatrix}
+1 \\ p(\overline {x}_1) \\ p(\overline {x}_2) \\ p(\overline {x}_2\overline {x}_1)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.2\\ 0.3\\ 0.1
+\end{pmatrix},
+\Pd^{\prime 2} =  \begin{pmatrix}
+1 \\ p(\overline{x}_1) \\ p(\overline{x}_3) \\ p(\overline{x}_3\overline{x}_1)
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.6\\ 0.5\\ 0.2 
+\end{pmatrix}.
+\end{equation*}
+
+Пусть поступившее свидетельство будет над алфавитом
+$\mathcal{A}_{\ev} = \{x_2\}$ со следующим вектором оценок:
+\begin{equation*}
+\Pd^{\prime \ev} = \begin{pmatrix}  1 \\ p(\overline{x}_2)	\end{pmatrix} = \begin{pmatrix}
+1 \\ 0.6
+\end{pmatrix}.
+\end{equation*}
+
+Воспользуемся уравнением \ref{dis3} и найдем апостериорные оценки элементов первого ФЗ:
+$ \G = \begin{pmatrix} 1 \\ 0 \end{pmatrix}.$
+
+$\chi^0 = \begin{pmatrix} 0 \end{pmatrix} $, 
+$\G \chi^0 = \begin{pmatrix} 1 \\ 0  \end{pmatrix}\begin{pmatrix} 0 \end{pmatrix} = \begin{pmatrix}  0 \\ 0 \end{pmatrix}$,
+$\chi^1 = \begin{pmatrix} 1 \end{pmatrix} $, 
+$\G \chi^1  = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \begin{pmatrix} 1 \end{pmatrix}  = \begin{pmatrix}  1 \\ 0 \end{pmatrix}$,
+\begin{equation*}
+\M^{\langle 00, 10 \rangle} = \M^- \otimes \M^\circ = 
+\begin{pmatrix} 0 & 1 \\ 0 & 1 \end{pmatrix} \otimes
+\begin{pmatrix} 1 &0 \\ 0 & 1\end{pmatrix}  =
+\begin{pmatrix} 0 &0 & 1 & 0 \\ 0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{d}^{\langle 00, 10 \rangle} = \mathbf{d}^- \otimes \mathbf{d}^\circ =  \begin{pmatrix} 0 \\ 1 \end{pmatrix} \otimes \begin{pmatrix}  1 \\ 0 \end{pmatrix} = \begin{pmatrix}  0 \\ 0 \\ 1 \\ 0 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\M^{\langle 10, 00 \rangle} = \M^+ \otimes \M^\circ = 
+\begin{pmatrix*}[r] 1 & -1 \\ 0 & 0 \end{pmatrix*} \otimes
+\begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix} = 
+\begin{pmatrix*}[r] 1 & 0 & -1 & 0 \\ 0 & 1 & 0 & -1 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\mathbf{d}^{\langle 10, 00 \rangle} = \mathbf{d}^+ \otimes \mathbf{d}^\circ = 
+\begin{pmatrix*}[r] 1 \\ -1 \end{pmatrix*} \otimes \begin{pmatrix}  1 \\ 0 \end{pmatrix} = \begin{pmatrix*}[r]  1 \\ 0 \\ -1 \\ 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\mathbf{L}_1\Pd^{\prime \ev} = \begin{pmatrix*}[r] 0 & 1 \\ 1 & -1 \end{pmatrix*} \begin{pmatrix}1 \\ 0.6\end{pmatrix} = \begin{pmatrix}
+0.6 \\ 0.4 \end{pmatrix}.
+\end{equation*}
+
+Подставим в уравнение \ref{dis3}, посчитаем и получим, что $\Pd^{\prime 1,a} = \begin{pmatrix}
+1 \\  \frac{9}{35} \\ 0.6 \\ 0.2
+\end{pmatrix}$.
+
+Найдем вектор виртуального свидетельства. Алфавит, над которым построено свидетельство $\mathcal{A}_{\ev} = \mathcal{A}_1 \cap \mathcal{A}_2 = \{x_1, x_2\} \cap \{x_1, x_3\} = \{x_1\}$.
+\begin{equation*}
+\V = \V^- \otimes \V^+ =  \begin{pmatrix} 1 & 0  \end{pmatrix} \otimes
+  \begin{pmatrix} 1 &0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix}
+1 & 0  & 0 & 0 \\ 0 & 1 & 0 & 0
+\end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\Pd^{\prime \ev} = \V\Pd^{\prime a} =  \begin{pmatrix}
+1 & 0  & 0 & 0 \\ 0 & 1  & 0 & 0
+\end{pmatrix} \begin{pmatrix}
+1 \\  \frac{9}{35} \\ 0.6 \\ 0.2
+\end{pmatrix} = \begin{pmatrix}
+1 \\ \frac{9}{35}
+\end{pmatrix}.
+\end{equation*} 
+
+Для пропагации виртуального свидетельства воспользуемся уравнением \ref{disGlob}:
+$\G = \begin{pmatrix} 0 \\ 1\end{pmatrix}.$
+
+$\chi^0 = \begin{pmatrix} 0 \end{pmatrix} $, 
+$\G\chi^0  =  \begin{pmatrix} 0 \\ 1 \end{pmatrix} \begin{pmatrix} 0 \end{pmatrix}= \begin{pmatrix}  0 \\ 0 \end{pmatrix}$,
+$\chi^1 = \begin{pmatrix} 1 \end{pmatrix} $, 
+$\G \chi^1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}  \begin{pmatrix} 1 \end{pmatrix}= \begin{pmatrix}  0 \\ 1 \end{pmatrix}$,
+\begin{equation*}
+\M^{\langle 00, 01 \rangle} = \M^\circ \otimes \M^- = 
+\begin{pmatrix} 1 &0 \\ 0 & 1\end{pmatrix}  \otimes
+\begin{pmatrix} 0 & 1 \\ 0 & 1 \end{pmatrix} =
+\begin{pmatrix} 0 &1 & 0 & 0 \\ 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1\\ 0 & 0 & 0 & 1 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{d}^{\langle 00, 01 \rangle} = \mathbf{d}^\circ \otimes \mathbf{d}^- = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \otimes \begin{pmatrix}  0 \\ 1 \end{pmatrix} = \begin{pmatrix}  0 \\ 1 \\ 0 \\ 0 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\M^{\langle 01, 00 \rangle} = \M^\circ \otimes \M^+ = 
+\begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix} \otimes
+\begin{pmatrix*}[r] 1 & -1 \\ 0 & 0 \end{pmatrix*} = 
+\begin{pmatrix*}[r] 1 & -1 & 0  & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 1 & -1 \\ 0 & 0 & 0 & 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\mathbf{d}^{\langle 01, 00 \rangle} = \mathbf{d}^\circ \otimes \mathbf{d}^+ =
+\begin{pmatrix} 1 \\ 0 \end{pmatrix} \otimes 
+\begin{pmatrix*}[r] 1 \\ -1 \end{pmatrix*} = 
+\begin{pmatrix*}[r]  1 \\ -1 \\ 0 \\ 0 \end{pmatrix*},
+\end{equation*}
+\begin{equation*}
+\mathbf{L}_1\Pd^{\prime \ev} = \begin{pmatrix*}[r] 0 & 1 \\ 1 & -1 \end{pmatrix*} \begin{pmatrix}1 \\  \frac{9}{35} \end{pmatrix} = \begin{pmatrix}
+\frac{9}{35} \\ \frac{26}{35} \end{pmatrix}.
+\end{equation*}
+
+Подставим в формулу и получим, что $\Pd^{\prime 2,a} = \begin{pmatrix}
+1 \\ \frac{9}{35} \\ \frac{9}{14} \\ \frac{3}{35}
+\end{pmatrix}$.	

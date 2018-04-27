@@ -1,0 +1,78 @@
+\subsection*{Пример использования уравнения для пропагации виртуального свидетельства над множеством квантов}
+ \addcontentsline{toc}{subsection}{Пример использования уравнения для пропагации виртуального свидетельства над множеством квантов}
+
+Пусть даны два фрагмента знаний над алфавитами $\mathcal{A}_1 = \{x_1, x_2\}$ и $\mathcal{A}_2 = \{x_1, x_3\}$ соответственно. Оба ФЗ построены над множествами квантов. Пусть в первый фрагмент знаний поступило стохастическое свидетельство. Пересчитаем оценки в данном ФЗ с учетом поступившего свидетельства и распространим далее его влияние  из первого ФЗ во второй:
+\begin{equation*}
+\Pq^{ 1} =  \begin{pmatrix}
+p(\overline {x}_2\overline {x}_1)\\ p(\overline {x}_2x_1) \\ p(x_2\overline {x}_1) \\ p(x_2x_1)
+\end{pmatrix} = \begin{pmatrix}
+0.1 \\ 0.2\\ 0.1\\ 0.6
+\end{pmatrix},
+\Pq^{2} =  \begin{pmatrix}
+p(\overline{x}_3\overline{x}_1) \\ p(\overline{x}_3x_1)\\ p(x_3\overline{x}_1) \\ p(x_3x_1)
+\end{pmatrix} = \begin{pmatrix}
+0.2 \\ 0.3\\ 0.4\\ 0.1 
+\end{pmatrix}.
+\end{equation*}
+
+Пусть поступившее свидетельство будет над алфавитом
+$\mathcal{A}_{\ev} = \{x_2\}$ со следующим вектором оценок:
+\begin{equation*}
+\Pq^{\ev} = \begin{pmatrix}  p(\overline {x}_2) \\ p(x_2)	\end{pmatrix} = \begin{pmatrix}
+0.4 \\ 0.6
+\end{pmatrix}.
+\end{equation*}
+
+Воспользуемся уравнением \ref{quantsG} и найдем апостериорные оценки элементов первого ФЗ: $\G = \begin{pmatrix} 1 \\ 0 \end{pmatrix}.$
+
+$\chi^0 = \begin{pmatrix} 0 \end{pmatrix} $, 
+$\G\chi^0  = \begin{pmatrix} 1 \\ 0  \end{pmatrix}\begin{pmatrix} 0 \end{pmatrix}  = \begin{pmatrix}  0 \\ 0 \end{pmatrix}$,
+$\chi^1 = \begin{pmatrix} 1 \end{pmatrix} $, 
+$\G \chi^1  =\begin{pmatrix} 1 \\ 0 \end{pmatrix} \begin{pmatrix} 1 \end{pmatrix}  = \begin{pmatrix}  1 \\ 0 \end{pmatrix}$,
+\begin{equation*}
+\Selector^{\langle 00, 10 \rangle} = \mathbf{s}^- \otimes \mathbf{s}^\circ =  \begin{pmatrix} 1 \\ 0 \end{pmatrix} \otimes \begin{pmatrix}  1 \\ 1 \end{pmatrix} = \begin{pmatrix}  1 \\ 1 \\ 0 \\ 0 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{s}^{\langle 10, 00 \rangle} = \mathbf{s}^+ \otimes \mathbf{s}^\circ = 
+\begin{pmatrix} 0 \\ 1 \end{pmatrix} \otimes \begin{pmatrix}  1 \\ 1 \end{pmatrix} = \begin{pmatrix}  0 \\ 0 \\ 1 \\ 1 \end{pmatrix}.
+\end{equation*}
+
+Подставим в уравнение \ref{quantsG}, вычислим и получим, что $\Pq^{1,a} = \begin{pmatrix}
+0.2 \\ 0.4 \\  \frac{2}{35}\\ \frac{12}{35}
+\end{pmatrix}$.
+
+Найдем вектор виртуального свидетельства. Алфавит, над которым построено свидетельство $\mathcal{A}_{\ev} = \mathcal{A}_1 \cap \mathcal{A}_2 = \{x_1, x_2\} \cap \{x_1, x_3\} = \{x_1\}$.
+
+Вычислим векторы-селекторы и матрицы проекции $\G_{\mathcal{A}_1, \mathcal{A}_{\ev}}$ и $\G_{\mathcal{A}_2, \mathcal{A}_{\ev}}$. Затем для пропагации виртуального свидетельства воспользуемся уравнением \ref{quantsGlob}: $\G_{\mathcal{A}_1, \mathcal{A}_{\ev}} = \begin{pmatrix} 0 \\ 1\end{pmatrix}.$
+
+$\chi^0 = \begin{pmatrix} 0 \end{pmatrix} $, 
+$ \G_{\mathcal{A}_1, \mathcal{A}_{\ev}} \chi^0 =\begin{pmatrix} 0 \\ 1 \end{pmatrix}  \begin{pmatrix} 0 \end{pmatrix} = \begin{pmatrix}  0 \\ 0 \end{pmatrix}$,
+$\chi^1 = \begin{pmatrix} 1 \end{pmatrix} $, 
+$ \G_{\mathcal{A}_1, \mathcal{A}_{\ev}} \chi^1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \begin{pmatrix} 1 \end{pmatrix}  = \begin{pmatrix}  0 \\ 1 \end{pmatrix}$,
+\begin{equation*}
+\mathbf{s}_1^{\langle 00, 01 \rangle} = \mathbf{s}^\circ \otimes \mathbf{s}^- = \begin{pmatrix} 1 \\ 1 \end{pmatrix} \otimes \begin{pmatrix}  1 \\ 0 \end{pmatrix} = \begin{pmatrix}  1 \\ 0 \\ 1 \\ 0 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{s}_1^{\langle 01, 00 \rangle} = \mathbf{s}^\circ \otimes \mathbf{s}^+ =
+\begin{pmatrix} 1 \\ 1 \end{pmatrix} \otimes \begin{pmatrix}  0 \\ 1 \end{pmatrix} = \begin{pmatrix}  0 \\ 1 \\ 0 \\ 1 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\G_{\mathcal{A}_2, \mathcal{A}_{\ev}} = \begin{pmatrix} 0 \\ 1\end{pmatrix},
+\end{equation*}
+
+$\chi^0 = \begin{pmatrix} 0 \end{pmatrix} $, 
+$ \G_{\mathcal{A}_2, \mathcal{A}_{\ev}} \chi^0 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \begin{pmatrix} 0 \end{pmatrix}  = \begin{pmatrix}  0 \\ 0 \end{pmatrix}$,
+$\chi^1 = \begin{pmatrix} 1 \end{pmatrix} $, 
+$\G_{\mathcal{A}_2, \mathcal{A}_{\ev}} \chi^1  = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \begin{pmatrix} 1 \end{pmatrix}  = \begin{pmatrix}  0 \\ 1 \end{pmatrix}$,
+\begin{equation*}
+\mathbf{s}_2^{\langle 00, 01 \rangle} = \mathbf{s}^- \otimes \mathbf{s}^\circ = \begin{pmatrix} 1 \\ 1 \end{pmatrix} \otimes \begin{pmatrix}  1 \\ 0 \end{pmatrix} = \begin{pmatrix}  1 \\ 0 \\ 1 \\ 0 \end{pmatrix},
+\end{equation*}
+\begin{equation*}
+\mathbf{s}_2^{\langle 01, 00 \rangle} = \mathbf{s}^+ \otimes \mathbf{s}^\circ =
+\begin{pmatrix} 1 \\ 1 \end{pmatrix} \otimes \begin{pmatrix}  0 \\ 1 \end{pmatrix} = \begin{pmatrix}  0 \\ 1 \\ 0 \\ 1 \end{pmatrix}.
+\end{equation*}
+
+
+Подставим в формулу \ref{quantsGlob} и получим, что $\Pq^{ 2,a} = \begin{pmatrix}
+\frac{3}{35}  \\ \frac{39}{70} \\ \frac{6}{35} \\ \frac{13}{70}
+\end{pmatrix}$.
